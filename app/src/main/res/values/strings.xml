@@ -4,5 +4,7 @@
     <string name="app_name">BigBrother</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+    <string name="GPSHint">GPS data will be output here</string>
+    <string name="GPSMessage">You current location is</string>
+    <string name="TimeHint">Time stamp will be here</string>
 </resources>
