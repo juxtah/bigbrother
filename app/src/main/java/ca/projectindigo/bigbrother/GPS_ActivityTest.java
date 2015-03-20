@@ -1,6 +1,7 @@
 package ca.projectindigo.bigbrother;
 
 // General UI and Location objects from Android OS
+
 import android.content.Context;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -11,22 +12,15 @@ import android.support.v7.app.ActionBarActivity;
 import android.telephony.TelephonyManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.loopj.android.http.*;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicNameValuePair;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.UUID;
-import com.loopj.android.http.*;
 
 public class GPS_ActivityTest extends ActionBarActivity{
     protected String deviceID;
@@ -55,8 +49,8 @@ public class GPS_ActivityTest extends ActionBarActivity{
     private Runnable updateAndSendLoc = new Runnable() {
         @Override
         public void run() {
-            double [] timeLongLatArray = new double[3];
-            writeValues(timeLongLatArray[0], timeLongLatArray[1], timeLongLatArray[2]);
+            double [] timeLongLatArray = retrieveInformation();
+            if (timeLongLatArray != null) writeValues(timeLongLatArray[0], timeLongLatArray[1], timeLongLatArray[2]);
             gpsRepeater.postDelayed(updateAndSendLoc, 1000);
         }
     };
@@ -70,13 +64,11 @@ public class GPS_ActivityTest extends ActionBarActivity{
         String lat = Double.toString(latitude);
         AsyncHttpClient raw = new AsyncHttpClient();
         RequestParams data = new RequestParams();
-        HttpPost target = new HttpPost("http://projectindigo.ca/bigbrother.php");
-        System.out.println("Help! Todd!");
         try{
             data.put("device_id", this.deviceID);
             data.put("time", t);
-            data.put("long", lon);
-            data.put("lat", lat);
+            data.put("longitude", lon);
+            data.put("latitude", lat);
             raw.post("http://projectindigo.ca/bigbrother.php", data, new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -119,9 +111,6 @@ public class GPS_ActivityTest extends ActionBarActivity{
         }
         // if r is still null, then GPS wasn't able to connect and therefore shouldn't push back any values
         return r;
-    }
-
-    public void buttonOnClick(View v){
     }
     
     @Override
