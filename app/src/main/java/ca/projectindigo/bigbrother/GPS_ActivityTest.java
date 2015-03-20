@@ -51,7 +51,7 @@ public class GPS_ActivityTest extends ActionBarActivity{
         public void run() {
             double [] timeLongLatArray = retrieveInformation();
             if (timeLongLatArray != null) writeValues(timeLongLatArray[0], timeLongLatArray[1], timeLongLatArray[2]);
-            gpsRepeater.postDelayed(updateAndSendLoc, 1000);
+            gpsRepeater.postDelayed(updateAndSendLoc, 5000);
         }
     };
 
@@ -95,7 +95,7 @@ public class GPS_ActivityTest extends ActionBarActivity{
         newLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, newLocationListener);
         if (newLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && DefaultLocationListener.latitude != 0 && DefaultLocationListener.longitude != 0){
             r = new double[3];
-            r[0] = Calendar.getInstance().get(Calendar.SECOND);
+            r[0] = (System.currentTimeMillis() / 1000L);
             r[1] = DefaultLocationListener.longitude;
             r[2] = DefaultLocationListener.latitude;
         }
@@ -104,7 +104,7 @@ public class GPS_ActivityTest extends ActionBarActivity{
             newLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, newLocationListener);
             if (newLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) && DefaultLocationListener.latitude != 0 && DefaultLocationListener.longitude != 0){
                 r = new double[3];
-                r[0] = Calendar.getInstance().get(Calendar.SECOND);
+                r[0] = (System.currentTimeMillis() / 1000L);
                 r[1] = DefaultLocationListener.longitude;
                 r[2] = DefaultLocationListener.latitude;
             }
