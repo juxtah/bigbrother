@@ -19,7 +19,6 @@ import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
 
-import java.util.Calendar;
 import java.util.UUID;
 
 public class GPS_ActivityTest extends ActionBarActivity{
@@ -51,7 +50,7 @@ public class GPS_ActivityTest extends ActionBarActivity{
         public void run() {
             double [] timeLongLatArray = retrieveInformation();
             if (timeLongLatArray != null) writeValues(timeLongLatArray[0], timeLongLatArray[1], timeLongLatArray[2]);
-            gpsRepeater.postDelayed(updateAndSendLoc, 5000);
+            gpsRepeater.postDelayed(updateAndSendLoc, 300000);
         }
     };
 
