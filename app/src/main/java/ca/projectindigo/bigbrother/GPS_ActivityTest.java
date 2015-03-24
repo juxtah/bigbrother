@@ -21,9 +21,12 @@ import org.apache.http.Header;
 
 import java.util.UUID;
 
+//import com.google.android.gms.location.LocationListener;
+
 public class GPS_ActivityTest extends ActionBarActivity{
     protected String deviceID;
     private Handler gpsRepeater;
+    private LocationManager newLocationManager;
 
     private void setUniqueID(){
         TelephonyManager pid = (TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
@@ -41,6 +44,7 @@ public class GPS_ActivityTest extends ActionBarActivity{
         setContentView(R.layout.activity_gps__activity_test);
         // also determine the unique device id as well
         setUniqueID();
+        newLocationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         gpsRepeater = new Handler();
         updateAndSendLoc.run();
     }
@@ -86,12 +90,11 @@ public class GPS_ActivityTest extends ActionBarActivity{
      * get the gps information and store in an array of 3 elements
      */
     private double [] retrieveInformation(){
-        LocationManager newLocationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         LocationListener newLocationListener = new DefaultLocationListener();
 
         double [] r = null;        // store null first in case nothing happens. We don't want to push bad values
         /* first attempt to lock onto GPS. If that fails, try Wi-Fi or cell towers */
-        newLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, newLocationListener);
+        newLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 100, newLocationListener);
         if (newLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && DefaultLocationListener.latitude != 0 && DefaultLocationListener.longitude != 0){
             r = new double[3];
             r[0] = (System.currentTimeMillis() / 1000L);
@@ -100,7 +103,7 @@ public class GPS_ActivityTest extends ActionBarActivity{
         }
         else{
             /* try Wi-Fi */
-            newLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, newLocationListener);
+            newLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 300000, 100, newLocationListener);
             if (newLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) && DefaultLocationListener.latitude != 0 && DefaultLocationListener.longitude != 0){
                 r = new double[3];
                 r[0] = (System.currentTimeMillis() / 1000L);
