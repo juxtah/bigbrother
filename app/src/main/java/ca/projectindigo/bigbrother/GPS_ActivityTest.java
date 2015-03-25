@@ -54,7 +54,7 @@ public class GPS_ActivityTest extends ActionBarActivity{
         public void run() {
             double [] timeLongLatArray = retrieveInformation();
             if (timeLongLatArray != null) writeValues(timeLongLatArray[0], timeLongLatArray[1], timeLongLatArray[2]);
-            gpsRepeater.postDelayed(updateAndSendLoc, 300000);
+            gpsRepeater.postDelayed(updateAndSendLoc, 120000);
         }
     };
 
@@ -94,7 +94,7 @@ public class GPS_ActivityTest extends ActionBarActivity{
 
         double [] r = null;        // store null first in case nothing happens. We don't want to push bad values
         /* first attempt to lock onto GPS. If that fails, try Wi-Fi or cell towers */
-        newLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 5, newLocationListener);
+        newLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 120000, 5, newLocationListener);
         if (newLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && DefaultLocationListener.latitude != 0 && DefaultLocationListener.longitude != 0){
             r = new double[3];
             r[0] = (System.currentTimeMillis() / 1000L);
@@ -103,7 +103,7 @@ public class GPS_ActivityTest extends ActionBarActivity{
         }
         else{
             /* try Wi-Fi */
-            newLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 300000, 5, newLocationListener);
+            newLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 120000, 5, newLocationListener);
             if (newLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) && DefaultLocationListener.latitude != 0 && DefaultLocationListener.longitude != 0){
                 r = new double[3];
                 r[0] = (System.currentTimeMillis() / 1000L);
