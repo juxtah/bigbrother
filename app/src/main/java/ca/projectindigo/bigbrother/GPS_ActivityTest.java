@@ -72,7 +72,7 @@ public class GPS_ActivityTest extends ActionBarActivity{
             data.put("time", t);
             data.put("longitude", lon);
             data.put("latitude", lat);
-            raw.post("http://projectindigo.ca/bigbrother.php", data, new AsyncHttpResponseHandler() {
+            raw.post("REDACTED", data, new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 }
